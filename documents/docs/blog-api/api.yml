@@ -1,0 +1,102 @@
+openapi: "3.0.0"
+
+info:
+  title: "サンプルブログAPI"
+  version: "1"
+
+servers:
+  - url: "https://api.sample.dev/v1"
+
+tags:
+  - name: "User"
+    description: "ユーザーに関する操作"
+paths:
+  /users/{userId}/articles:
+    get:
+      tags:
+        - "User"
+      summary: "ユーザーの記事一覧取得"
+      security: []
+      parameters:
+        - in: "path"
+          name: "userId"
+          required: true
+          schema:
+            type: string
+          description: "userId"
+        - in: "query"
+          name: "type"
+          required: true
+          schema:
+            type: string
+          description: "記事タイプ"
+      responses:
+        200:
+          description: "成功"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  articles:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/article"
+components:
+  schemas:
+    article:
+        required:
+          - "articleId"
+          - "content"
+          - "title"
+          - "type"
+          - "category"
+          - "description"
+          - "publishAt"
+          - "ogpUrl"
+          - "updateAt"
+          - "createAt"
+        type: "object"
+        properties:
+          articleId:
+            type: "string"
+            example: "xxxxxxxxxxx"
+          content:
+            type: "string"
+            example: "# h1"
+          title:
+            type: "string"
+            example: "XXをやってみた"
+          type:
+            type: "string"
+            enum: ["tech", "gaget", "life"]
+            example: "tech"
+          category: 
+            type: "string"
+            example: ["typescript"]
+          description:
+            type: "string"
+            example: "記事の説明！"
+          ogpUrl:
+            type: "string"
+            example: "https://res.cloudinary.com/sample"
+          thumbnail:
+            type: "string"
+            example: "https://res.cloudinary.com/sample"
+          createAt:
+            type: "number"
+            example: 160915346897
+          updateAt:
+            type: "number"
+            example: 160915346897
+          publishAt:
+            type: "number"
+            example: 160915346897
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: access token for API
+
+security:
+  - bearerAuth: []

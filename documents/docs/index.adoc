@@ -1,0 +1,20 @@
+:docname: サンプルブログ
+:lang: ja
+:doctype: book
+:icons: font
+:toc: left
+:toc-title: 目次
+:toclevels: 2
+:example-caption: 例
+:table-caption: 表
+:figure-caption: 図
+:chapter-label:
+:imagesdir: images
+:imagesoutdir: images
+
+= サンプルブログ仕様書
+
+== サンプルブログAPI
+
+==== link:blog-api/spec.html[設計書^]
+==== link:blog-api/api.html[API仕様書^]

@@ -1,0 +1,57 @@
+:docname: API仕様書
+:lang: ja
+:doctype: book
+:icons: font
+:toc: left
+:toc-title: 目次
+:toclevels: 3
+:example-caption: 例
+:table-caption: 表
+:figure-caption: 図
+:chapter-label:
+:imagesdir: ../images
+:imagesoutdir: images
+
+= サンプルブログドキュメント
+
+== 仕様書
+
+=== 記事取得
+
+[cols="3*", options="header"]
+|===
+|メソッド|パス|補足
+|GET|/users/{userId}/articles|
+|===
+
+[plantuml]
+----
+@startuml
+box "Web" #fff2df
+  participant "blog.sample.dev" as blog
+end box
+box "AWS" #fff2df
+  participant "APIGateway" as apig
+  participant "lambda" as lambda
+  database "User" as db_user
+  database "Article" as db_article
+end box
+blog -> apig: 記事取得
+activate blog
+activate apig
+apig -> lambda: 記事取得
+activate lambda
+lambda -> db_user: UIDを取得(userId)
+activate db_user
+alt 存在しない場合
+  db_user-->lambda: 取得NG
+  lambda-->apig: 400 BadRequest
+  apig-->blog: 400 BadRequest
+end
+lambda --> apig: 200 OK + 記事情報
+apig --> blog: 200 OK
+deactivate lambda
+deactivate apig
+deactivate blog
+@enduml
+----
